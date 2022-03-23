@@ -1,0 +1,24 @@
+function [Q, R] = find_qr(V)
+[n, ~] = size(V);
+
+Q = zeros(n,n);
+R = zeros(n,n);
+u = zeros(n,n);
+
+u(:, 1) = V(:, 1);
+Q(:, 1) = u(:, 1)/norm(u(:, 1));
+
+for i = 2:n
+    u(:, i) = V(:, i);
+    for j = 1:i
+        u(:, i) = u(:, i) - (V(:, i) .* Q(:, j)) .* Q(:, j); % get each u vector
+    end
+    Q(:, i) = u(:, i) / norm(u(:, i)); % compute each e vetor
+end
+for i = 1:n
+    for j = i:n
+         R(i, j) = V(:, j) .* Q(:, i);
+    end
+end
+
+end
